@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class StartBattle : MonoBehaviour
 {
+	[SerializeField] private PlayerParty party;
     void Start()
     {
 		DontDestroyOnLoad(this.gameObject);
@@ -20,6 +21,10 @@ public class StartBattle : MonoBehaviour
 		else
 		{
 			this.gameObject.SetActive(scene.name == "Battle");
+			foreach(var unit in party.playerUnits)
+			{
+				unit.gameObject.SetActive(scene.name == "Battle");
+			}
 		}
 	}
 }
