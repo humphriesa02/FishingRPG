@@ -246,8 +246,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Attack
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 951c884db819f304d84448759c1d9d98, type: 2}
-  m_sharedMaterial: {fileID: -3343396277325377206, guid: 951c884db819f304d84448759c1d9d98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
+  m_sharedMaterial: {fileID: 2572782327564397773, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -271,8 +271,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -392,51 +392,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143855355}
   m_CullTransparentMesh: 1
---- !u!1 &219665405
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 219665406}
-  - component: {fileID: 219665407}
-  m_Layer: 0
-  m_Name: TurnSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &219665406
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219665405}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.35879683, y: 1.7203585, z: -0.72065836}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &219665407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219665405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1b9dc7898dcc51469153095138920cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionsMenu: {fileID: 1330888734}
 --- !u!1 &546596782
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,8 +844,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Test Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 951c884db819f304d84448759c1d9d98, type: 2}
-  m_sharedMaterial: {fileID: -3343396277325377206, guid: 951c884db819f304d84448759c1d9d98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
+  m_sharedMaterial: {fileID: 2572782327564397773, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -914,12 +869,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 60
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 36
+  m_fontSizeMin: 24
+  m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1156,8 +1111,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Fish
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 951c884db819f304d84448759c1d9d98, type: 2}
-  m_sharedMaterial: {fileID: -3343396277325377206, guid: 951c884db819f304d84448759c1d9d98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
+  m_sharedMaterial: {fileID: 2572782327564397773, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1181,8 +1136,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1442,8 +1397,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Items
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 951c884db819f304d84448759c1d9d98, type: 2}
-  m_sharedMaterial: {fileID: -3343396277325377206, guid: 951c884db819f304d84448759c1d9d98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
+  m_sharedMaterial: {fileID: 2572782327564397773, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1467,8 +1422,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1641,6 +1596,7 @@ MonoBehaviour:
   enemyMenuContainer: {fileID: 143855355}
   enemyUnitInfoPrefab: {fileID: 7156631397134813507, guid: 91a3bcfe920f48d40b182c85d9a31cc8, type: 3}
   actionMenuContainer: {fileID: 11653146}
+  attackButton: {fileID: 941137655}
 --- !u!1 &1550103687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,7 +1842,7 @@ GameObject:
   - component: {fileID: 1868309278}
   m_Layer: 0
   m_Name: BattleSystem
-  m_TagString: Untagged
+  m_TagString: BattleSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2191,8 +2147,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Run
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 951c884db819f304d84448759c1d9d98, type: 2}
-  m_sharedMaterial: {fileID: -3343396277325377206, guid: 951c884db819f304d84448759c1d9d98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
+  m_sharedMaterial: {fileID: 2572782327564397773, guid: 57cdaa458f56250489f8162c9d5c2914, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2216,8 +2172,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2275,4 +2231,3 @@ SceneRoots:
   - {fileID: 546596786}
   - {fileID: 656288026}
   - {fileID: 1368296722}
-  - {fileID: 219665406}

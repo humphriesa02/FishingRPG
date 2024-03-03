@@ -4,5 +4,15 @@ using UnityEngine;
 
 public class PlayerParty : MonoBehaviour
 {
-    public Unit[] playerUnits;
+    private List<Unit> playerUnits;
+
+	private void Start()
+	{
+		playerUnits = new List<Unit>(GetComponentsInChildren<Unit>());
+	}
+
+	public List<Unit> GetPartyUnits()
+	{
+		return playerUnits;
+	}
 }

@@ -12,28 +12,41 @@ public class UnitInformationHUD : MonoBehaviour
 	public TextMeshProUGUI hpText;
 	public TextMeshProUGUI staminaText;
 	public TextMeshProUGUI fishingText;
-	private Unit thisUnit;
+	public Unit unit;
 
-	public void DisplayInfo(Unit unit)
+	// Initially called to assign the unit and
+	// set all initial HUD values
+	public void DisplayInfo(Unit otherUnit)
 	{
-		if (thisUnit == null)
+		if (unit == null)
 		{
-			thisUnit = unit;
+			unit = otherUnit;
 		}
 		nameText.text = unit.unitName;
-		hpText.text = unit.currentHealth + "/" + unit.maxHealth;
-		staminaText.text = unit.stamina.ToString();
-		fishingText.text = unit.fishingPower.ToString();
-		playerImage = unit.hudImage;
+		hpText.text = "HP: " + unit.currentHealth + "/" + unit.maxHealth;
+		staminaText.text = "SP: " + unit.stamina;
+		fishingText.text = "FP: " + unit.fishingPower;
+		playerImage.sprite = unit.hudImage;
 	}
 
+	// Since enemies in the HUD are just buttons,
+	// when the button is clicked for an enemy this is called.
+	// Call the attack unit functionality on the battle system
 	public void TakeDamage()
 	{
 		BattleSystem system = GameObject.FindGameObjectWithTag("BattleSystem").GetComponent<BattleSystem>();
 		if (system != null)
 		{
-			// TODO fix this
-			//system.AttackUnit(thisUnit);
+			StartCoroutine(system.AttackUnit(this));
+		}
+	}
+
+	// Simple health text updater function
+	public void UpdateHealth()
+	{
+		if (unit != null && hpText != null)
+		{
+			hpText.text = unit.currentHealth + "/" + unit.maxHealth;
 		}
 	}
 }

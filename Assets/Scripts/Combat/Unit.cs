@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Unit : MonoBehaviour, IComparable
+public class Unit : MonoBehaviour
 {
 	public string unitName;
 	public int level;
@@ -14,20 +14,19 @@ public class Unit : MonoBehaviour, IComparable
 	public float speed;
 	public float stamina;
 	public float fishingPower;
-	public Image hudImage;
+	public Sprite hudImage;
 
-	public int nextActTurn;
-	private bool dead = false;
-	public void calculateNextActTurn(int currentTurn)
+	public bool TakeDamage(float dmg)
 	{
-		this.nextActTurn = currentTurn + (int)Math.Ceiling(100.0f / this.speed);
-	}
-	public int CompareTo(object otherStats)
-	{
-		return nextActTurn.CompareTo(((Unit)otherStats).nextActTurn);
-	}
-	public bool isDead()
-	{
-		return this.dead;
+		currentHealth -= dmg;
+
+		if (currentHealth <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
