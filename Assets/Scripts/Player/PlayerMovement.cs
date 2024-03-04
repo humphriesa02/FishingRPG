@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private float moveHorizontal = 0f;
 	private float moveVertical = 0f;
-	private Vector3 moveDirection = Vector3.zero;
+	public Vector3 moveDirection { get; private set; }
 
 	/**
      * Components
@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rb = GetComponent<Rigidbody2D>();
 		}
+		anim.SetFloat("idleDirectionX", GameManager.Instance.PlayerManager.playerStartingDirection.x);
+		anim.SetFloat("idleDirectionY", GameManager.Instance.PlayerManager.playerStartingDirection.y);
 	}
 
 	private void Update()

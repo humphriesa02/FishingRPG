@@ -16,17 +16,21 @@ public class Unit : MonoBehaviour
 	public float fishingPower;
 	public Sprite hudImage;
 
+	bool isDead;
+
 	public bool TakeDamage(float dmg)
 	{
 		currentHealth -= dmg;
 
 		if (currentHealth <= 0)
 		{
-			return true;
+			isDead = true;
 		}
 		else
 		{
-			return false;
+			isDead = false;
 		}
+
+		return isDead;
 	}
 }

@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/**
+ * SUBJECT TO DELETION 
+ */
 public class StartBattle : MonoBehaviour
 {
     void Start()
     {
-		DontDestroyOnLoad(this.gameObject);
-		SceneManager.sceneLoaded += OnSceneLoaded;
-		this.gameObject.SetActive(false);
+		/*SceneManager.sceneLoaded += OnSceneLoaded;
+		this.gameObject.SetActive(false);*/
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if (scene.name == "Title")
+		/*if (scene.name == "Title")
 		{
 			SceneManager.sceneLoaded -= OnSceneLoaded;
 			Destroy(this.gameObject);
@@ -20,6 +22,6 @@ public class StartBattle : MonoBehaviour
 		else
 		{
 			this.gameObject.SetActive(scene.name == "Battle");
-		}
+		}*/
 	}
 }

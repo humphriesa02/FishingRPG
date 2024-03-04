@@ -30,12 +30,17 @@ public class BattleHUD : MonoBehaviour
 	// Reference to the battle system
 	private BattleSystem battleSystem;
 
+	// selecting mode
+	bool selectingEnemyMode = false;
+
 	// Sets up HUD related to the enemy and the player party
 	public void SetupBattleHUD(List<Unit> enemyUnits, List<Unit> playerUnits, BattleSystem system)
 	{
 		// Empties out the list of player and enemy HUD objects
 		playerUnitsHUD = new List<GameObject>();
 		enemyUnitsHUD = new List<GameObject>();
+
+		selectingEnemyMode = false;
 
 		// Assign battle system
 		if (battleSystem == null)
@@ -78,6 +83,19 @@ public class BattleHUD : MonoBehaviour
 		SwapToDialogueMenu();
 	}
 
+	private void Update()
+	{
+		if (selectingEnemyMode)
+		{
+			if (Input.GetButton("Cancel"))
+			{
+				ToggleEnemyButtons(false);
+				SwapToActionMenu();
+				selectingEnemyMode = false;
+			}
+		}
+	}
+
 	// To change from Action menu to Dialogue menu
 	public void SwapToDialogueMenu()
 	{
@@ -88,12 +106,6 @@ public class BattleHUD : MonoBehaviour
 	public void SetDialogueText(string text)
 	{
 		dialogueText.text = text;
-	}
-
-	private IEnumerator SetDialogueTextWithTime(string text, float displayTime)
-	{
-		dialogueText.text = text;
-		yield return new WaitForSeconds(displayTime);
 	}
 
 	// To change from Dialogue menu to Action menu
@@ -132,8 +144,8 @@ public class BattleHUD : MonoBehaviour
 			}
 			else
 			{
-				print("Run failed");
-				SwapToActionMenu();
+				SetDialogueText("Run failed!");
+				Invoke("SwapToActionMenu", 2f);
 			}
 		}
 	}
@@ -141,8 +153,9 @@ public class BattleHUD : MonoBehaviour
 	// Set dialogue then enable all the enemy buttons
 	private void SelectEnemyToAttack()
 	{
+		selectingEnemyMode = true;
 		SwapToDialogueMenu();
-		dialogueText.text = "Select an enemy to attack";
+		SetDialogueText("Select an enemy to attack");
 		ToggleEnemyButtons(true);
 		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
 	}

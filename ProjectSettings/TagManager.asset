@@ -9,6 +9,7 @@ TagManager:
   - BattleHUD
   - BattleSystem
   - PlayerParty
+  - PlayerStart
   layers:
   - Default
   - TransparentFX
@@ -48,4 +49,10 @@ TagManager:
     locked: 0
   - name: HUD
     uniqueID: 3777866203
+    locked: 0
+  - name: Environment
+    uniqueID: 434634083
+    locked: 0
+  - name: Characters
+    uniqueID: 1985258003
     locked: 0
