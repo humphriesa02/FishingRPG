@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 // Different states of the battle
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST, RAN }
 
 /**
  * Handles logic for a turn based battle
@@ -69,7 +70,7 @@ public class BattleSystem : MonoBehaviour
 		PlayerTurn(0);
 	}
 
-	IEnumerator EndBattle()
+	public IEnumerator EndBattle()
 	{
 		if (state == BattleState.WON)
 		{
@@ -78,6 +79,10 @@ public class BattleSystem : MonoBehaviour
 		else if (state == BattleState.LOST)
 		{
 			battleHUD.SetDialogueText("Your party has all been knocked out!");
+		}
+		else if (state == BattleState.RAN)
+		{
+			battleHUD.SetDialogueText("You have successfully escaped");
 		}
 		yield return new WaitForSeconds(2f);
 
@@ -252,5 +257,54 @@ public class BattleSystem : MonoBehaviour
 			state = BattleState.PLAYERTURN;
 			PlayerTurn();
 		}
+	}
+
+	public bool AttemptToRun()
+	{
+		float runSuccessChance = CalculateRunChance();
+
+		float randomChance = Random.value;
+		print("Random chance: " + randomChance);
+		print("Run Success chance: " + runSuccessChance);
+
+		if (randomChance > runSuccessChance)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	private float CalculateRunChance()
+	{
+		int playerLevelTotal = CalculateTotalLevels(playerUnits);
+		int enemyLevelTotal = CalculateTotalLevels(enemyUnits);
+
+		int levelDifference = enemyLevelTotal - playerLevelTotal;
+
+		float runChance = Sigmoid(levelDifference);
+		
+
+		return runChance;
+	}
+
+	private int CalculateTotalLevels(List<Unit> units)
+	{
+		int levelTotal = 0;
+		foreach (Unit unit in units)
+		{
+			levelTotal += unit.level;
+		}
+		return levelTotal;
+	}
+
+	// Calculate run chance on a curve
+	private float Sigmoid(int x)
+	{
+		float k = 0.15f; // Curve steepness
+		float runChance = 1f / (1f + Mathf.Exp(-k * x));
+		return runChance;
 	}
 }

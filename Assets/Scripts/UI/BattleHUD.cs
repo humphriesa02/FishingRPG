@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -89,6 +90,12 @@ public class BattleHUD : MonoBehaviour
 		dialogueText.text = text;
 	}
 
+	private IEnumerator SetDialogueTextWithTime(string text, float displayTime)
+	{
+		dialogueText.text = text;
+		yield return new WaitForSeconds(displayTime);
+	}
+
 	// To change from Dialogue menu to Action menu
 	public void SwapToActionMenu()
 	{
@@ -109,6 +116,25 @@ public class BattleHUD : MonoBehaviour
 			}
 
 			SelectEnemyToAttack();
+		}
+	}
+
+	public void OnRunButtonClicked()
+	{
+		if (battleSystem != null)
+		{
+			bool runSuccess = battleSystem.AttemptToRun();
+			SwapToDialogueMenu();
+			if (runSuccess)
+			{
+				battleSystem.state = BattleState.RAN;
+				StartCoroutine(battleSystem.EndBattle());
+			}
+			else
+			{
+				print("Run failed");
+				SwapToActionMenu();
+			}
 		}
 	}
 
