@@ -104,7 +104,7 @@ public class BattleSystem : MonoBehaviour
 		/// refer to BattleHUD.cs as well as UnitInformationHUD.cs
 	}
 
-	void EnemyTurn(int enemyIndex = 0)
+	public void EnemyTurn(int enemyIndex = 0)
 	{
 		print("Enemy turn!");
 		currentEnemyIndex = enemyIndex;
@@ -206,7 +206,7 @@ public class BattleSystem : MonoBehaviour
 		}
 	}
 
-	private void NextPartyMemberTurn()
+	public void NextPartyMemberTurn()
 	{
 		// The current player's turn has ended
 		currentPlayerIndex++;

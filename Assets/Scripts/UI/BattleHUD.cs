@@ -144,10 +144,16 @@ public class BattleHUD : MonoBehaviour
 			}
 			else
 			{
-				SetDialogueText("Run failed!");
-				Invoke("SwapToActionMenu", 2f);
+				StartCoroutine(RunFailed());
 			}
 		}
+	}
+
+	IEnumerator RunFailed()
+	{
+		SetDialogueText("Could not escape!");
+		yield return new WaitForSeconds(2f);
+		battleSystem.NextPartyMemberTurn();
 	}
 
 	// Set dialogue then enable all the enemy buttons

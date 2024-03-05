@@ -50,9 +50,6 @@ TagManager:
   - name: HUD
     uniqueID: 3777866203
     locked: 0
-  - name: Environment
-    uniqueID: 434634083
-    locked: 0
-  - name: Characters
+  - name: Objects
     uniqueID: 1985258003
     locked: 0
