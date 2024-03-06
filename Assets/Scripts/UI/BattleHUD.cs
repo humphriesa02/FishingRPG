@@ -203,7 +203,7 @@ public class BattleHUD : MonoBehaviour
 			enemyUnitsHUD.Remove(enemyUnit.gameObject);
 			enemyUnit.PlayDeathAnim();
 
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(1f);
 
 			Destroy(enemyUnit.gameObject);
 		}

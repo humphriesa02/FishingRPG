@@ -62,7 +62,7 @@ public class BattleSystem : MonoBehaviour
 		// Set up the UI
 		battleHUD.SetupBattleHUD(enemyUnits, playerUnits, this);
 
-		// Wait
+		// Wait before starting the battle
 		yield return new WaitForSeconds(2f);
 
 		// Start the player's turn
@@ -84,6 +84,7 @@ public class BattleSystem : MonoBehaviour
 		{
 			battleHUD.SetDialogueText("You have successfully escaped");
 		}
+		// Wait before leaving the battle and returning to the previous scene
 		yield return new WaitForSeconds(2f);
 
 		// Leave battle section
@@ -127,6 +128,7 @@ public class BattleSystem : MonoBehaviour
 			string battleText = playerUnits[currentPlayerIndex].unitName + " attacks " + unitToAttackHUD.unit.unitName + "!";
 			battleHUD.SetDialogueText(battleText);
 
+			// Wait after setting the attacking text before actually doing damage
 			yield return new WaitForSeconds(1f);
 
 			// Apply damage to the HUD's unit variable
@@ -138,15 +140,20 @@ public class BattleSystem : MonoBehaviour
 			unitToAttackHUD.UpdateHealth();
 
 			// Wait
-			yield return new WaitForSeconds(2f);
 			print("We are in player state");
 			if (isDead)
 			{
+				// If the unit is killed, wait a very small amount before
+				// showing that the enemy has died
+				yield return new WaitForSeconds(0.5f);
 				print("Killed the enemy");
-				EnemyEliminated(unitToAttackHUD);
+				StartCoroutine(EnemyEliminated(unitToAttackHUD));
 			}
 			else
 			{
+				// Otherwise if not killed, wait a little longer before
+				// moving to the next turn
+				yield return new WaitForSeconds(2f);
 				print("Did not kill the enemy");
 				NextPartyMemberTurn();
 			}
@@ -158,6 +165,7 @@ public class BattleSystem : MonoBehaviour
 			string battleText = enemyUnits[currentEnemyIndex].unitName + " attacks " + unitToAttackHUD.unit.unitName + "!";
 			battleHUD.SetDialogueText(battleText);
 
+			// Wait after setting the attacking text before actually doing damage
 			yield return new WaitForSeconds(2f);
 
 			// Apply damage to the HUD's unit variable
@@ -167,16 +175,20 @@ public class BattleSystem : MonoBehaviour
 			battleHUD.SetDialogueText(battleText);
 			// Update the HUD health of the unit
 			unitToAttackHUD.UpdateHealth();
-
-			// Wait
-			yield return new WaitForSeconds(2f);
+			
 			if (isDead)
 			{
 				print("Killed the party member");
+				// If the unit is killed, wait a very small amount before
+				// showing that the enemy has died
+				yield return new WaitForSeconds(0.5f);
 				PartyMemberEliminated(unitToAttackHUD);
 			}
 			else
 			{
+				// Otherwise if not killed, wait a little longer before
+				// moving to the next turn
+				yield return new WaitForSeconds(2f);
 				print("Should go to next enemy turn");
 				NextEnemyTurn();
 			}
@@ -184,13 +196,16 @@ public class BattleSystem : MonoBehaviour
 	}
 
 	// Process the elimination of an enemy by a player
-	private void EnemyEliminated(UnitInformationHUD unitToAttackHUD)
+	private IEnumerator EnemyEliminated(UnitInformationHUD unitToAttackHUD)
 	{
 		// If it has, remove it from it's respective unit list
 		enemyUnits.Remove(unitToAttackHUD.unit);
 		// Also remove it from the battle hud
 		StartCoroutine(battleHUD.RemoveEnemyFromHUD(unitToAttackHUD));
 
+		// Wait a little after removing the enemy before moving on with
+		// the battle
+		yield return new WaitForSeconds(2f);
 		print("Enemy removed from screen");
 		// If there is no more left of that unit type, one side has won, end battle
 		if (enemyUnits.Count <= 0)
