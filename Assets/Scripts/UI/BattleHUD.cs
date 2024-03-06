@@ -27,6 +27,8 @@ public class BattleHUD : MonoBehaviour
 	public GameObject actionMenuContainer;
 	public GameObject attackButton;
 
+	private GameObject lastSelectedButton;
+
 	// Reference to the battle system
 	private BattleSystem battleSystem;
 
@@ -94,6 +96,18 @@ public class BattleHUD : MonoBehaviour
 				selectingEnemyMode = false;
 			}
 		}
+
+		if (EventSystem.current.currentSelectedGameObject == null)
+		{
+			if (lastSelectedButton != null)
+			{
+				EventSystem.current.SetSelectedGameObject(lastSelectedButton);
+			}
+			else
+			{
+				EventSystem.current.SetSelectedGameObject(attackButton);
+			}
+		}
 	}
 
 	// To change from Action menu to Dialogue menu
@@ -113,6 +127,7 @@ public class BattleHUD : MonoBehaviour
 	{
 		actionMenuContainer.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(attackButton);
+		lastSelectedButton = attackButton;
 		dialogueContainer.SetActive(false);
 	}
 
@@ -164,6 +179,7 @@ public class BattleHUD : MonoBehaviour
 		SetDialogueText("Select an enemy to attack");
 		ToggleEnemyButtons(true);
 		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
+		lastSelectedButton = enemyUnitsHUD[0].gameObject;
 	}
 
 	public void ToggleEnemyButtons(bool isOn)
@@ -180,11 +196,15 @@ public class BattleHUD : MonoBehaviour
 		return playerUnitsHUD[randIndex].GetComponent<UnitInformationHUD>();
 	}
 
-	public void RemoveEnemyFromHUD(UnitInformationHUD enemyUnit)
+	public IEnumerator RemoveEnemyFromHUD(UnitInformationHUD enemyUnit)
 	{
 		if (enemyUnitsHUD.Contains(enemyUnit.gameObject))
 		{
 			enemyUnitsHUD.Remove(enemyUnit.gameObject);
+			enemyUnit.PlayDeathAnim();
+
+			yield return new WaitForSeconds(2f);
+
 			Destroy(enemyUnit.gameObject);
 		}
 	}

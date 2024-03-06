@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 	// Party reference
-	public GameObject playerParty;
+	public PlayerParty playerParty;
 
+	// Player stuff
 	public GameObject playerPrefab;
 	public GameObject player;
+	public string playerName = "Alex";
 
 	public Vector2 playerStartingPosition; // Actual position to spawn the player
 	public Vector2 playerStartingDirection; // Direction to spawn the player
@@ -16,6 +18,7 @@ public class PlayerManager : MonoBehaviour
 	private void Awake()
 	{
 		SetPlayerStartingPosition(ChooseRandomPlayerStart());
+		playerParty = GetComponentInChildren<PlayerParty>();
 	}
 
 	private void Start()
@@ -24,6 +27,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			SpawnPlayer();
 		}
+		PlayerPrefs.SetString("PlayerName", playerName);
 	}
 
 	// Creates an instance of the movable player character

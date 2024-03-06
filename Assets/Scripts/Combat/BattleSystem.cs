@@ -189,7 +189,7 @@ public class BattleSystem : MonoBehaviour
 		// If it has, remove it from it's respective unit list
 		enemyUnits.Remove(unitToAttackHUD.unit);
 		// Also remove it from the battle hud
-		battleHUD.RemoveEnemyFromHUD(unitToAttackHUD);
+		StartCoroutine(battleHUD.RemoveEnemyFromHUD(unitToAttackHUD));
 
 		print("Enemy removed from screen");
 		// If there is no more left of that unit type, one side has won, end battle

@@ -14,6 +14,16 @@ public class UnitInformationHUD : MonoBehaviour
 	public TextMeshProUGUI fishingText;
 	public Unit unit;
 
+	[SerializeField] private Animator anim;
+
+	private void Start()
+	{
+		if (anim == null)
+		{
+			anim = GetComponent<Animator>();
+		}
+	}
+
 	// Initially called to assign the unit and
 	// set all initial HUD values
 	public void DisplayInfo(Unit otherUnit)
@@ -37,8 +47,14 @@ public class UnitInformationHUD : MonoBehaviour
 		BattleSystem system = GameObject.FindGameObjectWithTag("BattleSystem").GetComponent<BattleSystem>();
 		if (system != null)
 		{
+			anim.SetTrigger("isTakingDamage");
 			StartCoroutine(system.AttackUnit(this));
 		}
+	}
+
+	public void PlayDeathAnim()
+	{
+		anim.SetTrigger("isDead");
 	}
 
 	// Simple health text updater function

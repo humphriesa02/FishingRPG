@@ -423,11 +423,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f737353dd2623d943a36a66c7826a888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerParty: {fileID: 1468231098583020219}
+  playerParty: {fileID: 584929467147236199}
   playerPrefab: {fileID: 785154198661349008, guid: 63b5c9a698e653f44821293f8670442a, type: 3}
   player: {fileID: 0}
+  playerName: Alex
   playerStartingPosition: {x: 0, y: 0}
-  playerStartingDirection: {x: 0, y: 0}
+  playerStartingDirection: {x: 0, y: -1}
 --- !u!4 &1168741470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1566898288085867038, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
@@ -8499,6 +8500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cb9c5dc76943649b92299d282b394a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUnits: []
 --- !u!4 &952952600329002428
 Transform:
   m_ObjectHideFlags: 0
@@ -8664,7 +8666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: level
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: speed
@@ -8769,7 +8771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: level
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: speed
@@ -8794,10 +8796,10 @@ PrefabInstance:
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: hudImage
       value: 
-      objectReference: {fileID: 21300000, guid: 6902973b56f7cf549b73a87d7b7e0bc0, type: 3}
+      objectReference: {fileID: 21300000, guid: b27e90cdb5d3f4d439798ce20b83956d, type: 3}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: unitName
-      value: Player2
+      value: Shelldon
       objectReference: {fileID: 0}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: maxHealth

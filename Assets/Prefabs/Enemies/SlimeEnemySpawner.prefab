@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5001489139968355307}
   - component: {fileID: 5834828530519879858}
   - component: {fileID: 6721110693114953760}
+  - component: {fileID: 322493024003311604}
   - component: {fileID: 3932919209978193803}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: SlimeEnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 667094215
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1197357752, guid: 4e51d82f8886c0f4d9e84721002226e4, type: 3}
+  m_Sprite: {fileID: -102016961, guid: a1f5700fd77c0654981b797765b70dca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,6 +160,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!95 &322493024003311604
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979673706836419498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2fe097aee93fac64fbe7a7c009e1ff55, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3932919209978193803
 MonoBehaviour:
   m_ObjectHideFlags: 0
