@@ -231,6 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRoomBounds: {x: 0, y: 0}
   maxRoomBounds: {x: 0, y: 0}
+  shakeDuration: 1.5
+  shakeMagnitude: 2
 --- !u!114 &647840812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8691,7 +8693,7 @@ PrefabInstance:
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: hudImage
       value: 
-      objectReference: {fileID: 21300000, guid: 207700b26623e034487de0e6ebd47fea, type: 3}
+      objectReference: {fileID: 21300000, guid: 0d8d927cade9bc2478c1c80f0500fa25, type: 3}
     - target: {fileID: 7915770906499896956, guid: 0055af0e2b2e4f04691c9728906b032b, type: 3}
       propertyPath: unitName
       value: Player

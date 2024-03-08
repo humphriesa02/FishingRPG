@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,7 +48,6 @@ public class UnitInformationHUD : MonoBehaviour
 		BattleSystem system = GameObject.FindGameObjectWithTag("BattleSystem").GetComponent<BattleSystem>();
 		if (system != null)
 		{
-			anim.SetTrigger("isTakingDamage");
 			StartCoroutine(system.AttackUnit(this));
 		}
 	}
@@ -55,6 +55,16 @@ public class UnitInformationHUD : MonoBehaviour
 	public void PlayDeathAnim()
 	{
 		anim.SetTrigger("isDead");
+	}
+
+	public void PlayDamageAnim()
+	{
+		anim.SetTrigger("isTakingDamage");
+	}
+
+	public void IsUnitsTurn(bool isUnitsTurn)
+	{
+		anim.SetBool("isUnitsTurn", isUnitsTurn);
 	}
 
 	// Simple health text updater function

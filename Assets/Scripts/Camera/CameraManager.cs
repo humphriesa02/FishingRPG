@@ -8,6 +8,9 @@ public class CameraManager : MonoBehaviour
 	public Vector2 minRoomBounds;
 	public Vector2 maxRoomBounds;
 
+    public float shakeDuration = 1.5f;
+    public float shakeMagnitude = 2f;
+
 	// Update is called once per frame
 	void Update()
     {
@@ -24,5 +27,25 @@ public class CameraManager : MonoBehaviour
     public void AssignTarget(GameObject newTarget)
     {
         target = newTarget;
+    }
+
+    public IEnumerator Shake (float duration, float magnitude)
+    {
+        Vector3 originalPos = transform.localPosition;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            transform.localPosition = new Vector3(x, y, originalPos.z);
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.localPosition = originalPos;
     }
 }

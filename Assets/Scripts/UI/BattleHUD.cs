@@ -235,4 +235,34 @@ public class BattleHUD : MonoBehaviour
 		SwapToActionMenu();
 		dialogueText.text = "";
 	}
+
+	public void DisplayCurrentTurnPlayerUnit(Unit activeUnit)
+	{
+		foreach (GameObject playerUnitObj in playerUnitsHUD)
+		{
+			if (playerUnitObj.GetComponent<UnitInformationHUD>() != null && playerUnitObj.GetComponent<UnitInformationHUD>().unit == activeUnit)
+			{
+				playerUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(true);
+			}
+			else
+			{
+				playerUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(false);
+			}
+		}
+	}
+
+	public void DisplayCurrentTurnEnemyUnit(Unit activeUnit)
+	{
+		foreach (GameObject enemyUnitObj in enemyUnitsHUD)
+		{
+			if (enemyUnitObj.GetComponent<UnitInformationHUD>() != null && enemyUnitObj.GetComponent<UnitInformationHUD>().unit == activeUnit)
+			{
+				enemyUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(true);
+			}
+			else
+			{
+				enemyUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(false);
+			}
+		}
+	}
 }

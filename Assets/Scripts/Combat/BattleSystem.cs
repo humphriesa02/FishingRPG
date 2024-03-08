@@ -99,6 +99,9 @@ public class BattleSystem : MonoBehaviour
 	void PlayerTurn(int playerIndex = 0)
 	{
 		currentPlayerIndex = playerIndex;
+		// Display the player who's turn it is
+		battleHUD.DisplayCurrentTurnPlayerUnit(playerUnits[currentPlayerIndex]);
+
 		battleHUD.SwapToActionMenu();
 
 		/// Player attacking functionality happens in HUD,
@@ -109,6 +112,7 @@ public class BattleSystem : MonoBehaviour
 	{
 		print("Enemy turn!");
 		currentEnemyIndex = enemyIndex;
+		battleHUD.DisplayCurrentTurnEnemyUnit(enemyUnits[currentEnemyIndex]);
 		battleHUD.SwapToDialogueMenu();
 
 		// Find a random player to attack
@@ -127,10 +131,11 @@ public class BattleSystem : MonoBehaviour
 		{
 			string battleText = playerUnits[currentPlayerIndex].unitName + " attacks " + unitToAttackHUD.unit.unitName + "!";
 			battleHUD.SetDialogueText(battleText);
+			unitToAttackHUD.PlayDamageAnim();
 
 			// Wait after setting the attacking text before actually doing damage
 			yield return new WaitForSeconds(1f);
-
+			
 			// Apply damage to the HUD's unit variable
 			bool isDead = unitToAttackHUD.unit.TakeDamage(playerUnits[currentPlayerIndex].damage);
 
@@ -164,6 +169,7 @@ public class BattleSystem : MonoBehaviour
 			print("We are in enemy's turn");
 			string battleText = enemyUnits[currentEnemyIndex].unitName + " attacks " + unitToAttackHUD.unit.unitName + "!";
 			battleHUD.SetDialogueText(battleText);
+			unitToAttackHUD.PlayDamageAnim();
 
 			// Wait after setting the attacking text before actually doing damage
 			yield return new WaitForSeconds(2f);
