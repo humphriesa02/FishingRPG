@@ -251,6 +251,19 @@ public class BattleHUD : MonoBehaviour
 		}
 	}
 
+	// When it changes from player turn to enemy turn, or vice versa
+	public void TurnOffUnitTurn()
+	{
+		foreach (GameObject playerUnitObj in playerUnitsHUD)
+		{
+			playerUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(false);
+		}
+		foreach(GameObject enemyUnitObj in enemyUnitsHUD)
+		{
+			enemyUnitObj.GetComponent<UnitInformationHUD>().IsUnitsTurn(false);
+		}
+	}
+
 	public void DisplayCurrentTurnEnemyUnit(Unit activeUnit)
 	{
 		foreach (GameObject enemyUnitObj in enemyUnitsHUD)

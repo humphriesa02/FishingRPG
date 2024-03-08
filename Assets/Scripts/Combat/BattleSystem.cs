@@ -241,6 +241,7 @@ public class BattleSystem : MonoBehaviour
 		{
 			print("Should move to enemy turn");
 			state = BattleState.ENEMYTURN;
+			battleHUD.TurnOffUnitTurn();
 			EnemyTurn(0);
 		}
 	}
@@ -276,6 +277,7 @@ public class BattleSystem : MonoBehaviour
 		{
 			print("Return to player turn");
 			state = BattleState.PLAYERTURN;
+			battleHUD.TurnOffUnitTurn();
 			PlayerTurn();
 		}
 	}
