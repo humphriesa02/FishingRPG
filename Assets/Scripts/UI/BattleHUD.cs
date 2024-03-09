@@ -293,7 +293,7 @@ public class BattleHUD : MonoBehaviour
 	{
 		if (playerUnitsHUD.Contains(playerUnit.gameObject))
 		{
-			// Show dead icons or something
+			playerUnit.PlayKnockoutAnim(true);
 		}
 	}
 

@@ -66,6 +66,11 @@ public class UnitInformationHUD : MonoBehaviour
 		anim.SetTrigger("isDead");
 	}
 
+	public void PlayKnockoutAnim(bool doPlay)
+	{
+		anim.SetBool("isKnockedOut", doPlay);
+	}
+
 	public void PlayDamageAnim()
 	{
 		anim.SetTrigger("isTakingDamage");
