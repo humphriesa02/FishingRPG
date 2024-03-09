@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,11 @@ public class BattleHUD : MonoBehaviour
 	public GameObject playerUnitInfoPrefab;
 	private List<GameObject> playerUnitsHUD;
 
+	// Item menu
+	public GameObject itemMenuContainer;
+	public GameObject itemContainerPrefab;
+	private List<GameObject> itemHUDList;
+
 	// Enemy Menu
 	public GameObject enemyMenuContainer;
 	public GameObject enemyUnitInfoPrefab;
@@ -35,14 +41,21 @@ public class BattleHUD : MonoBehaviour
 	// selecting mode
 	bool selectingEnemyMode = false;
 
+	bool selectingItemMode = false;
+
+	// Using item mode
+	bool usingItemMode = false;
+
 	// Sets up HUD related to the enemy and the player party
-	public void SetupBattleHUD(List<Unit> enemyUnits, List<Unit> playerUnits, BattleSystem system)
+	public void SetupBattleHUD(List<Unit> enemyUnits, List<Unit> playerUnits, List<Item> items, BattleSystem system)
 	{
 		// Empties out the list of player and enemy HUD objects
 		playerUnitsHUD = new List<GameObject>();
 		enemyUnitsHUD = new List<GameObject>();
+		itemHUDList = new List<GameObject>();
 
-		selectingEnemyMode = false;
+		ToggleEnemyButtons(false);
+		TogglePartyMemberButtons(false);
 
 		// Assign battle system
 		if (battleSystem == null)
@@ -51,16 +64,25 @@ public class BattleHUD : MonoBehaviour
 		}
 
 		// Starting dialogue setup
-		string enemyText = "A wild ";
+		string enemyText = "";
+		Dictionary<string, int> nameCount = new Dictionary<string, int>();
 		for (int i = 0; i < enemyUnits.Count; i++)
 		{
-			enemyText += enemyUnits[i].unitName;
-			if (i != enemyUnits.Count - 1)
+			if (nameCount.ContainsKey(enemyUnits[i].unitName))
 			{
-				enemyText += ", ";
+				nameCount[enemyUnits[i].unitName]++;
+			}
+			else
+			{
+				nameCount[enemyUnits[i].unitName] = 1;
 			}
 		}
-		enemyText += " approaches...";
+		foreach (KeyValuePair<string, int> entry in nameCount)
+		{
+			// do something with entry.Value or entry.Key
+			enemyText += entry.Value + " " + entry.Key + "s";
+		}
+		enemyText += " approach!";
 		dialogueText.text = enemyText;
 
 		// loop through units, create a HUD prefab, update the text
@@ -81,6 +103,13 @@ public class BattleHUD : MonoBehaviour
 			playerUnitsHUD.Add(player);
 		}
 
+		foreach (Item item in items)
+		{
+			GameObject itemHUD = Instantiate(itemContainerPrefab, itemMenuContainer.transform);
+			itemHUD.GetComponent<ItemInformationHUD>().DisplayInfo(item);
+			itemHUDList.Add(itemHUD);
+		}
+
 		// Start off in dialogue to display starting dialogue
 		SwapToDialogueMenu();
 	}
@@ -89,11 +118,27 @@ public class BattleHUD : MonoBehaviour
 	{
 		if (selectingEnemyMode)
 		{
-			if (Input.GetButton("Cancel"))
+			if (Input.GetButtonDown("Cancel"))
 			{
 				ToggleEnemyButtons(false);
 				SwapToActionMenu();
-				selectingEnemyMode = false;
+			}
+		}
+		if (selectingItemMode)
+		{
+			if (Input.GetButtonDown("Cancel"))
+			{
+				print("Returning to menu");
+				SwapToActionMenu();
+				selectingItemMode = false;
+			}
+		}
+		if (usingItemMode)
+		{
+			if (Input.GetButtonDown("Cancel"))
+			{
+				TogglePartyMemberButtons(false);
+				SwapToItemMenu();
 			}
 		}
 
@@ -114,6 +159,7 @@ public class BattleHUD : MonoBehaviour
 	public void SwapToDialogueMenu()
 	{
 		actionMenuContainer.SetActive(false);
+		itemMenuContainer.SetActive(false);
 		dialogueContainer.SetActive(true);
 	}
 
@@ -129,6 +175,16 @@ public class BattleHUD : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(attackButton);
 		lastSelectedButton = attackButton;
 		dialogueContainer.SetActive(false);
+		itemMenuContainer.SetActive(false);
+	}
+
+	public void SwapToItemMenu()
+	{
+		actionMenuContainer.SetActive(false);
+		dialogueContainer.SetActive(false);
+		itemMenuContainer.SetActive(true);
+		selectingItemMode = true;
+		EventSystem.current.SetSelectedGameObject(itemHUDList[0].gameObject);
 	}
 
 	// When the "Attack" option of the action menu is selected
@@ -164,6 +220,12 @@ public class BattleHUD : MonoBehaviour
 		}
 	}
 
+	public void OnItemButtonClicked()
+	{
+		SwapToItemMenu();
+		EventSystem.current.SetSelectedGameObject(itemHUDList[0].gameObject);
+	}
+
 	IEnumerator RunFailed()
 	{
 		SetDialogueText("Could not escape!");
@@ -174,7 +236,6 @@ public class BattleHUD : MonoBehaviour
 	// Set dialogue then enable all the enemy buttons
 	private void SelectEnemyToAttack()
 	{
-		selectingEnemyMode = true;
 		SwapToDialogueMenu();
 		SetDialogueText("Select an enemy to attack");
 		ToggleEnemyButtons(true);
@@ -182,11 +243,30 @@ public class BattleHUD : MonoBehaviour
 		lastSelectedButton = enemyUnitsHUD[0].gameObject;
 	}
 
+	public void SelectPartyMemberToUseItemOn(ItemInformationHUD itemHUD)
+	{
+		selectingItemMode = false;
+		SwapToDialogueMenu();
+		SetDialogueText("Select a party member to use " + itemHUD.item.itemName + " on.");
+		TogglePartyMemberButtons(true);
+		EventSystem.current.SetSelectedGameObject(playerUnitsHUD[0].gameObject);
+		lastSelectedButton = playerUnitsHUD[0].gameObject;
+	}
+
 	public void ToggleEnemyButtons(bool isOn)
 	{
+		selectingEnemyMode = isOn;
 		foreach (GameObject enemyUnitObj in enemyUnitsHUD)
 		{
 			enemyUnitObj.GetComponent<Button>().enabled = isOn;
+		}
+	}
+	public void TogglePartyMemberButtons(bool isOn)
+	{
+		usingItemMode = isOn;
+		foreach (GameObject playerUnitObj in playerUnitsHUD)
+		{
+			playerUnitObj.GetComponent<Button>().enabled = isOn;
 		}
 	}
 
@@ -217,6 +297,17 @@ public class BattleHUD : MonoBehaviour
 		}
 	}
 
+	public void RemoveItemFromHUD(ItemInformationHUD itemHUD)
+	{
+
+		if (itemHUDList.Contains(itemHUD.gameObject))
+		{
+			itemHUDList.Remove(itemHUD.gameObject);
+			
+			Destroy(itemHUD.gameObject);
+		}
+	}
+
 	public void TearDownMenu()
 	{
 		foreach(GameObject enemyUnitObj in enemyUnitsHUD)
@@ -232,6 +323,7 @@ public class BattleHUD : MonoBehaviour
 		enemyUnitsHUD.Clear();
 
 		ToggleEnemyButtons(false);
+		TogglePartyMemberButtons(false);
 		SwapToActionMenu();
 		dialogueText.text = "";
 	}

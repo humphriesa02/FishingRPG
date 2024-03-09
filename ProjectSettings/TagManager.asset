@@ -10,6 +10,7 @@ TagManager:
   - BattleSystem
   - PlayerParty
   - PlayerStart
+  - Inventory
   layers:
   - Default
   - TransparentFX

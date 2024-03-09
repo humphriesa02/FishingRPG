@@ -24,6 +24,9 @@ public class BattleSystem : MonoBehaviour
 	private List<Unit> enemyUnits;
 	private int currentEnemyIndex;
 
+	// Item to be used on ally
+	private ItemInformationHUD selectedItem;
+
 	private BattleHUD battleHUD;
 	public string returnSceneName;
 
@@ -59,11 +62,13 @@ public class BattleSystem : MonoBehaviour
 			enemyUnits.Add(currentUnit);
 		}
 
+		List<Item> items = GameManager.Instance.PlayerManager.inventory.GetInventoryItems();
+
 		// Set up the UI
-		battleHUD.SetupBattleHUD(enemyUnits, playerUnits, this);
+		battleHUD.SetupBattleHUD(enemyUnits, playerUnits, items, this);
 
 		// Wait before starting the battle
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(1f);
 
 		// Start the player's turn
 		state = BattleState.PLAYERTURN;
@@ -85,7 +90,7 @@ public class BattleSystem : MonoBehaviour
 			battleHUD.SetDialogueText("You have successfully escaped");
 		}
 		// Wait before leaving the battle and returning to the previous scene
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(2.5f);
 
 		// Leave battle section
 		if (returnSceneName != null || returnSceneName != "")
@@ -117,7 +122,21 @@ public class BattleSystem : MonoBehaviour
 
 		// Find a random player to attack
 		UnitInformationHUD randomPartyUnit = battleHUD.SelectRandomPartyMember();
-		StartCoroutine(AttackUnit(randomPartyUnit));
+		int numberOfTries = 0;
+		while (randomPartyUnit.unit.isDead && numberOfTries < 10)
+		{
+			randomPartyUnit = battleHUD.SelectRandomPartyMember();
+			numberOfTries++;
+		}
+		if (numberOfTries >= 10)
+		{
+			StartCoroutine(EndBattle());
+			Debug.LogError("Cannot find a non-dead enemy. Should have ended battle!");
+		}
+		else
+		{
+			StartCoroutine(AttackUnit(randomPartyUnit));
+		}
 	}
 
 	// When the HUD has selected an enemy to attack,
@@ -150,7 +169,7 @@ public class BattleSystem : MonoBehaviour
 			{
 				// If the unit is killed, wait a very small amount before
 				// showing that the enemy has died
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(1f);
 				print("Killed the enemy");
 				StartCoroutine(EnemyEliminated(unitToAttackHUD));
 			}
@@ -158,7 +177,7 @@ public class BattleSystem : MonoBehaviour
 			{
 				// Otherwise if not killed, wait a little longer before
 				// moving to the next turn
-				yield return new WaitForSeconds(2f);
+				yield return new WaitForSeconds(1f);
 				print("Did not kill the enemy");
 				NextPartyMemberTurn();
 			}
@@ -172,7 +191,7 @@ public class BattleSystem : MonoBehaviour
 			unitToAttackHUD.PlayDamageAnim();
 
 			// Wait after setting the attacking text before actually doing damage
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(1f);
 
 			// Apply damage to the HUD's unit variable
 			bool isDead = unitToAttackHUD.unit.TakeDamage(enemyUnits[currentEnemyIndex].damage);
@@ -187,14 +206,14 @@ public class BattleSystem : MonoBehaviour
 				print("Killed the party member");
 				// If the unit is killed, wait a very small amount before
 				// showing that the enemy has died
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(1f);
 				PartyMemberEliminated(unitToAttackHUD);
 			}
 			else
 			{
 				// Otherwise if not killed, wait a little longer before
 				// moving to the next turn
-				yield return new WaitForSeconds(2f);
+				yield return new WaitForSeconds(1f);
 				print("Should go to next enemy turn");
 				NextEnemyTurn();
 			}
@@ -204,6 +223,7 @@ public class BattleSystem : MonoBehaviour
 	// Process the elimination of an enemy by a player
 	private IEnumerator EnemyEliminated(UnitInformationHUD unitToAttackHUD)
 	{
+		battleHUD.SetDialogueText(unitToAttackHUD.unit.unitName + " has been defeated!");
 		// If it has, remove it from it's respective unit list
 		enemyUnits.Remove(unitToAttackHUD.unit);
 		// Also remove it from the battle hud
@@ -211,7 +231,7 @@ public class BattleSystem : MonoBehaviour
 
 		// Wait a little after removing the enemy before moving on with
 		// the battle
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(1f);
 		print("Enemy removed from screen");
 		// If there is no more left of that unit type, one side has won, end battle
 		if (enemyUnits.Count <= 0)
@@ -329,5 +349,30 @@ public class BattleSystem : MonoBehaviour
 		float k = 0.15f; // Curve steepness
 		float runChance = 1f / (1f + Mathf.Exp(-k * x));
 		return runChance;
+	}
+
+	// Set the selected item as well as allow the user to select a party member
+	public void UnitItemSelection(ItemInformationHUD itemHUD)
+	{
+		selectedItem = itemHUD;
+		battleHUD.SelectPartyMemberToUseItemOn(itemHUD);
+	}
+
+	public IEnumerator UseItem(UnitInformationHUD unitToUseItemOn)
+	{
+		battleHUD.TogglePartyMemberButtons(false);
+		battleHUD.SwapToDialogueMenu();
+		battleHUD.SetDialogueText("Used " + selectedItem.item.itemName + " on " + unitToUseItemOn.unit.unitName);
+		GameManager.Instance.PlayerManager.inventory.UseSelectedItem(selectedItem.item, unitToUseItemOn.unit);
+		unitToUseItemOn.UpdateHealth();
+
+		print("Used the item");
+		battleHUD.RemoveItemFromHUD(selectedItem);
+		print("Should move on");
+
+		yield return new WaitForSeconds(1f);
+		selectedItem = null;
+
+		NextPartyMemberTurn();
 	}
 }

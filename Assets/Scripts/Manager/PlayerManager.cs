@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
 	// Party reference
 	public PlayerParty playerParty;
+	public Inventory inventory;
 
 	// Player stuff
 	public GameObject playerPrefab;

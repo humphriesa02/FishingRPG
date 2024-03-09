@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
 	public float fishingPower;
 	public Sprite hudImage;
 
-	bool isDead;
+	public bool isDead;
 
 	public bool TakeDamage(float dmg)
 	{

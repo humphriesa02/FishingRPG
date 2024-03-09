@@ -52,6 +52,15 @@ public class UnitInformationHUD : MonoBehaviour
 		}
 	}
 
+	public void GiveItem()
+	{
+		BattleSystem system = GameObject.FindGameObjectWithTag("BattleSystem").GetComponent<BattleSystem>();
+		if (system != null)
+		{
+			StartCoroutine(system.UseItem(this));
+		}
+	}
+
 	public void PlayDeathAnim()
 	{
 		anim.SetTrigger("isDead");
