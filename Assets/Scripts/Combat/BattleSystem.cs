@@ -324,6 +324,8 @@ public class BattleSystem : MonoBehaviour
 	{
 		int playerLevelTotal = CalculateTotalLevels(playerUnits);
 		int enemyLevelTotal = CalculateTotalLevels(enemyUnits);
+		print("Player level total: " + playerLevelTotal);
+		print("Enemy level total: " + enemyLevelTotal);
 
 		int levelDifference = enemyLevelTotal - playerLevelTotal;
 

@@ -51,18 +51,14 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	// Set the local starting vector based on a supplied Transform
-	public void SetPlayerStartingPosition(Transform newStartingTransform = null)
+	public void SetPlayerStartingPosition(Transform newStartingTransform = null, Vector2 spawnDirection = default(Vector2), bool movePlayerBack = false)
 	{
 		if (newStartingTransform != null)
 		{
-			playerStartingPosition = CopyTransformPosition(newStartingTransform) - playerStartingDirection;
+			if (movePlayerBack) playerStartingPosition = CopyTransformPosition(newStartingTransform) - spawnDirection;
+			else playerStartingPosition = CopyTransformPosition(newStartingTransform);	
 		}
-	}
-
-	// Set the local starting direction for the player based on a supplied Vector direction
-	public void SetPlayerStartingDirection(Vector2 newStartingDirection)
-	{
-		playerStartingDirection = newStartingDirection;
+		playerStartingDirection = spawnDirection;
 	}
 
 	// Chooses a transform by randomly selecting an object tagged with "PlayerStart"

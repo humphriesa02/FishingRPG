@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+	Default,
+	Menu
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -12,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 	private float moveVertical = 0f;
 	public Vector3 moveDirection { get; private set; }
 
+	private PlayerState state;
 	/**
      * Components
      */
@@ -28,11 +35,30 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rb = GetComponent<Rigidbody2D>();
 		}
+
 		anim.SetFloat("idleDirectionX", GameManager.Instance.PlayerManager.playerStartingDirection.x);
-		anim.SetFloat("idleDirectionY", GameManager.Instance.PlayerManager.playerStartingDirection.y);
+		if (GameManager.Instance.PlayerManager.playerStartingDirection == Vector2.zero) anim.SetFloat("idleDirectionY", -1);
+		else anim.SetFloat("idleDirectionY", GameManager.Instance.PlayerManager.playerStartingDirection.y);
+
+		state = PlayerState.Default;
 	}
 
 	private void Update()
+	{
+		switch (state)
+		{
+			case PlayerState.Default:
+				HandleDefaultState();
+				break;
+			case PlayerState.Menu:
+				HandleMenuState();
+				break;
+		}
+
+		PlayAnimations();
+	}
+
+	private void HandleDefaultState()
 	{
 		// Get Input
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
@@ -41,7 +67,10 @@ public class PlayerMovement : MonoBehaviour
 		// Set move direction vector
 		moveDirection = new Vector3(moveHorizontal, moveVertical, 0);
 		moveDirection.Normalize();
+	}
 
+	private void PlayAnimations()
+	{
 		// Set direction for anim
 		anim.SetFloat("moveDirectionX", moveHorizontal);
 		anim.SetFloat("moveDirectionY", moveVertical);
@@ -53,8 +82,26 @@ public class PlayerMovement : MonoBehaviour
 		anim.SetFloat("velocity", moveDirection.magnitude);
 	}
 
+	private void HandleMenuState()
+	{
+		// Menu Handles state
+		moveDirection = Vector2.zero;
+	}
+
+	public void ChangePlayerState(PlayerState newState)
+	{
+		state = newState;
+	}
+
 	private void FixedUpdate()
 	{
-		rb.MovePosition(transform.position + moveDirection * baseSpeed * Time.deltaTime);
+		switch (state)
+		{
+			case PlayerState.Default:
+				rb.MovePosition(transform.position + moveDirection * baseSpeed * Time.deltaTime);
+				break;
+			case PlayerState.Menu:
+				break;
+		}
 	}
 }

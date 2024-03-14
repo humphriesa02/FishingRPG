@@ -44,14 +44,13 @@ public class StartEncounter : MonoBehaviour
 	}
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Player")
+		if (other.gameObject.CompareTag("Player"))
 		{
 			spawning = true;
 
 			// Handle setting where the player will return to
 			playerCollisionTransform = other.transform;
-			GameManager.Instance.PlayerManager.SetPlayerStartingDirection(other.GetComponent<PlayerMovement>().moveDirection);
-			GameManager.Instance.PlayerManager.SetPlayerStartingPosition(playerCollisionTransform);
+			GameManager.Instance.PlayerManager.SetPlayerStartingPosition(playerCollisionTransform, other.GetComponent<PlayerMovement>().moveDirection, true);
 
 			// Name the previous scene to return to
 			previousScene = SceneManager.GetActiveScene().name;

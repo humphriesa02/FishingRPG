@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
 
     public void UseSelectedItem(Item item, Unit unitToUseItem)
     {
-        if (items.Contains(item))
+        if (items.Contains(item) && item is not KeyItem)
         {
             print("Using Item");
             item.UseItem(unitToUseItem);

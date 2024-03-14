@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 	public PlayerManager PlayerManager;
 	public CameraManager CameraManager;
-
+	public DialogueManager DialogueManager;
 	private void Awake()
 	{
 		if (Instance != null && Instance != this)
@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 		// Get Components from Children
 		PlayerManager = GetComponentInChildren<PlayerManager>();
 		CameraManager = GetComponentInChildren<CameraManager>();
+		DialogueManager = GetComponentInChildren<DialogueManager>();
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
