@@ -24,6 +24,10 @@ public class BattleHUD : MonoBehaviour
 	public GameObject itemContainerPrefab;
 	private List<GameObject> itemHUDList;
 
+	// Fishing minigame
+	public GameObject fishingMinigameContainer;
+	public GameObject fishingMinigameIndicator;
+
 	// Enemy Menu
 	public GameObject enemyMenuContainer;
 	public GameObject enemyUnitInfoPrefab;
@@ -121,6 +125,7 @@ public class BattleHUD : MonoBehaviour
 			if (Input.GetButtonDown("Cancel"))
 			{
 				ToggleEnemyButtons(false);
+				battleSystem.isFishing = false;
 				SwapToActionMenu();
 			}
 		}
@@ -161,6 +166,7 @@ public class BattleHUD : MonoBehaviour
 		actionMenuContainer.SetActive(false);
 		itemMenuContainer.SetActive(false);
 		dialogueContainer.SetActive(true);
+		fishingMinigameContainer.SetActive(false);
 	}
 
 	public void SetDialogueText(string text)
@@ -176,6 +182,7 @@ public class BattleHUD : MonoBehaviour
 		lastSelectedButton = attackButton;
 		dialogueContainer.SetActive(false);
 		itemMenuContainer.SetActive(false);
+		fishingMinigameContainer.SetActive(false);
 	}
 
 	public void SwapToItemMenu()
@@ -183,8 +190,18 @@ public class BattleHUD : MonoBehaviour
 		actionMenuContainer.SetActive(false);
 		dialogueContainer.SetActive(false);
 		itemMenuContainer.SetActive(true);
+		fishingMinigameContainer.SetActive(false);
 		selectingItemMode = true;
 		EventSystem.current.SetSelectedGameObject(itemHUDList[0].gameObject);
+	}
+
+	public void SwapToFishingMinigame()
+	{
+		actionMenuContainer.SetActive(false);
+		dialogueContainer.SetActive(false);
+		itemMenuContainer.SetActive(false);
+		fishingMinigameContainer.SetActive(true);
+		EventSystem.current.SetSelectedGameObject(fishingMinigameIndicator);
 	}
 
 	// When the "Attack" option of the action menu is selected
@@ -225,6 +242,18 @@ public class BattleHUD : MonoBehaviour
 		SwapToItemMenu();
 		EventSystem.current.SetSelectedGameObject(itemHUDList[0].gameObject);
 	}
+	public void OnFishButtonClicked()
+	{
+		if (battleSystem != null)
+		{
+			if (battleSystem.state != BattleState.PLAYERTURN)
+			{
+				return;
+			}
+
+			SelectEnemyToFish();
+		}
+	}
 
 	IEnumerator RunFailed()
 	{
@@ -238,6 +267,16 @@ public class BattleHUD : MonoBehaviour
 	{
 		SwapToDialogueMenu();
 		SetDialogueText("Select an enemy to attack");
+		ToggleEnemyButtons(true);
+		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
+		lastSelectedButton = enemyUnitsHUD[0].gameObject;
+	}
+
+	private void SelectEnemyToFish()
+	{
+		battleSystem.isFishing = true;
+		SwapToDialogueMenu();
+		SetDialogueText("Select an enemy to fish.");
 		ToggleEnemyButtons(true);
 		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
 		lastSelectedButton = enemyUnitsHUD[0].gameObject;

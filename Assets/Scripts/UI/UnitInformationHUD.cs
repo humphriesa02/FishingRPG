@@ -40,15 +40,12 @@ public class UnitInformationHUD : MonoBehaviour
 		playerImage.sprite = unit.hudImage;
 	}
 
-	// Since enemies in the HUD are just buttons,
-	// when the button is clicked for an enemy this is called.
-	// Call the attack unit functionality on the battle system
-	public void TakeDamage()
+	public void SelectUnit()
 	{
 		BattleSystem system = GameObject.FindGameObjectWithTag("BattleSystem").GetComponent<BattleSystem>();
 		if (system != null)
 		{
-			StartCoroutine(system.AttackUnit(this));
+			system.SelectUnit(this);
 		}
 	}
 

@@ -30,6 +30,9 @@ public class BattleSystem : MonoBehaviour
 	private BattleHUD battleHUD;
 	public string returnSceneName;
 
+	public bool isFishing = false;
+	public UnitInformationHUD selectedFishingEnemy;
+
 	void Start()
     {
 		// Start in the 'start' state
@@ -139,6 +142,17 @@ public class BattleSystem : MonoBehaviour
 		}
 	}
 
+	public void SelectUnit(UnitInformationHUD selectedUnitHUD)
+	{
+		if (isFishing)
+		{
+			StartCoroutine(FishUnit(selectedUnitHUD));
+		}
+		else
+		{
+			StartCoroutine(AttackUnit(selectedUnitHUD));
+		}
+	}
 	// When the HUD has selected an enemy to attack,
 	// actual logic for attacking an enemy, can also process
 	// changing turns
@@ -218,6 +232,13 @@ public class BattleSystem : MonoBehaviour
 				NextEnemyTurn();
 			}
 		}
+	}
+
+	private IEnumerator FishUnit(UnitInformationHUD unitToFishHUD)
+	{
+		battleHUD.ToggleEnemyButtons(false);
+		battleHUD.SwapToFishingMinigame();
+		yield return new WaitForSeconds(0.5f);
 	}
 
 	// Process the elimination of an enemy by a player

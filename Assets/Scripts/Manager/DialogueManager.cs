@@ -13,8 +13,12 @@ public class DialogueManager : MonoBehaviour
 	[SerializeField] private Image advanceImage;
 	[SerializeField] private TextMeshProUGUI speakerText;
 	[SerializeField] private float typeWriterTextDelay = 0.2f;
-	[SerializeField] private float noImageMargin = 15f;
-	[SerializeField] private float withImageMargin = 235f;
+	[SerializeField] private float noImageMargin = 15f; // Magic num, might check out responsive ui
+	[SerializeField] private float withImageMargin = 235f; // Magic num, might check out responsive ui
+
+	// Whether or not a dialogue is currently being written out
+	private bool isTyping;
+	private string dialogueString;
 
 
     Queue<DialogueSequence> dialogueQueue;
@@ -31,8 +35,17 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(DisplayNextDialogue());
 	}
 
-    IEnumerator DisplayNextDialogue()
+	private void Update()
+	{
+		if (isTyping && Input.GetButtonDown("Submit"))
+		{
+			isTyping = false;
+			dialogueText.text = dialogueString;
+		}
+	}
+	IEnumerator DisplayNextDialogue()
     {
+		
 		foreach (DialogueSequence sequence in dialogueQueue)
 		{
 			dialogueText.text = "";
@@ -53,7 +66,7 @@ public class DialogueManager : MonoBehaviour
 			dialogueText.margin = localMargin;
 			speakerText.text = sequence.speakerName;
 			yield return StartCoroutine(TypeWriterText(dialogueText, sequence.dialogueText, typeWriterTextDelay));
-
+			isTyping = false;
 			advanceImage.gameObject.SetActive(true);
 			yield return new WaitUntil(() => Input.GetButtonDown("Submit"));
 		}
@@ -63,14 +76,22 @@ public class DialogueManager : MonoBehaviour
 
 	IEnumerator TypeWriterText(TextMeshProUGUI uiTextElement, string textToDisplay, float delayTime, AudioClip dialogueSound = null)
 	{
-		foreach(char c in textToDisplay)
+		isTyping = true;
+		dialogueString = textToDisplay;
+
+		foreach (char c in textToDisplay)
 		{
-			uiTextElement.text += c;
-			if (dialogueSound != null)
+			if (isTyping)
 			{
-				// TODO play sound when audio manager is created
+				uiTextElement.text += c;
+				if (dialogueSound != null)
+				{
+					// TODO play sound when audio manager is created
+				}
+				yield return new WaitForSeconds(delayTime);
 			}
-			yield return new WaitForSeconds(delayTime);
+			else break;
+			
 		}
 	}
 

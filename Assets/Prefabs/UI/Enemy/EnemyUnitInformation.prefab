@@ -785,6 +785,7 @@ MonoBehaviour:
   staminaText: {fileID: 7532716821957553132}
   fishingText: {fileID: 3512826964395723114}
   unit: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!114 &4366850166002725239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,7 +832,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2525111558092609967}
         m_TargetAssemblyTypeName: UnitInformationHUD, Assembly-CSharp
-        m_MethodName: TakeDamage
+        m_MethodName: SelectUnit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
