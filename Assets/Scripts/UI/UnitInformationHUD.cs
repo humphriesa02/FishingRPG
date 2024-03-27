@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UnitInformationHUD : MonoBehaviour
 {
 	public Image playerImage;
-    public TextMeshProUGUI nameText;
+	public TextMeshProUGUI nameText;
 	public TextMeshProUGUI hpText;
 	public TextMeshProUGUI staminaText;
 	public TextMeshProUGUI fishingText;
@@ -71,6 +71,11 @@ public class UnitInformationHUD : MonoBehaviour
 	public void PlayDamageAnim()
 	{
 		anim.SetTrigger("isTakingDamage");
+	}
+
+	public void PlayAimingAnim(bool doPlay)
+	{
+		anim.SetBool("isAiming", doPlay);
 	}
 
 	public void IsUnitsTurn(bool isUnitsTurn)

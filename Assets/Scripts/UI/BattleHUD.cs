@@ -268,6 +268,7 @@ public class BattleHUD : MonoBehaviour
 		SwapToDialogueMenu();
 		SetDialogueText("Select an enemy to attack");
 		ToggleEnemyButtons(true);
+		TogglePartyMemberButtons(false);
 		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
 		lastSelectedButton = enemyUnitsHUD[0].gameObject;
 	}
@@ -278,6 +279,7 @@ public class BattleHUD : MonoBehaviour
 		SwapToDialogueMenu();
 		SetDialogueText("Select an enemy to fish.");
 		ToggleEnemyButtons(true);
+		TogglePartyMemberButtons(false);
 		EventSystem.current.SetSelectedGameObject(enemyUnitsHUD[0].gameObject);
 		lastSelectedButton = enemyUnitsHUD[0].gameObject;
 	}

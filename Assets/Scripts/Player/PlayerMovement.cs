@@ -64,6 +64,14 @@ public class PlayerMovement : MonoBehaviour
 		moveHorizontal = Input.GetAxisRaw("Horizontal");
 		moveVertical = Input.GetAxisRaw("Vertical");
 
+		if (Mathf.Abs(moveHorizontal) > Mathf.Abs(moveVertical))
+		{
+			moveVertical = 0;
+		}
+		else
+		{
+			moveHorizontal = 0;
+		}
 		// Set move direction vector
 		moveDirection = new Vector3(moveHorizontal, moveVertical, 0);
 		moveDirection.Normalize();

@@ -15,6 +15,10 @@ public class FishingMinigame : MonoBehaviour
 
     private BattleHUD battleHUD;
 
+    [SerializeField] private GameObject AimingSectionContainer;
+    [SerializeField] private GameObject CastSectionContainer;
+    [SerializeField] private GameObject ReelingSectionContainer;
+
     private float aimPercentage = 0f;
     private float castPercentage = 0f;
     private float reelingPercentage = 0f;
@@ -23,6 +27,8 @@ public class FishingMinigame : MonoBehaviour
     {
         FishingState = FishingState.Aiming;
         battleHUD = GetComponentInParent<BattleHUD>();
+
+        ChangeState(FishingState.Aiming);
     }
 
     void Update()
@@ -48,6 +54,23 @@ public class FishingMinigame : MonoBehaviour
     void ChangeState(FishingState state)
     {
         FishingState = state;
+		AimingSectionContainer.SetActive(false);
+		CastSectionContainer.SetActive(false);
+		//ReelingSectionContainer.SetActive(false);
+		switch (FishingState)
+        {
+            case FishingState.Aiming:
+				AimingSectionContainer.SetActive(true);
+				break;
+            case FishingState.Cast:
+                CastSectionContainer.SetActive(true);
+                break;
+            case FishingState.Reeling:
+                ReelingSectionContainer.SetActive(true);
+                break;
+            case FishingState.End:
+                break;
+        }
     }
 
     public void setAimPercentage(float percent)
@@ -61,6 +84,7 @@ public class FishingMinigame : MonoBehaviour
     void ConfirmAim()
     {
         print(aimPercentage);
+        ChangeState(FishingState.Cast);
     }
 
 }

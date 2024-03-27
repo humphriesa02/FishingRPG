@@ -238,6 +238,7 @@ public class BattleSystem : MonoBehaviour
 	{
 		battleHUD.ToggleEnemyButtons(false);
 		battleHUD.SwapToFishingMinigame();
+		unitToFishHUD.PlayAimingAnim(true);
 		yield return new WaitForSeconds(0.5f);
 	}
 
